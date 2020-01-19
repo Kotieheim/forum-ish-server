@@ -1,15 +1,18 @@
 const express = require("express");
 const PostService = require("./posts-service");
-
+const { requireAuth } = require("../middleware/jwt-auth");
 const postsRouter = express.Router();
 
-postsRouter.route("/").get((req, res, next) => {
-  PostService.getAllPosts(req.app.get("db"))
-    .then(posts => {
-      res.json(posts.map(PostService.serializePost));
-    })
-    .catch(next);
-});
+postsRouter
+  .route("/")
+  // .all(requireAuth)
+  .get((req, res, next) => {
+    PostService.getAllPosts(req.app.get("db"))
+      .then(posts => {
+        res.json(posts.map(PostService.serializePost));
+      })
+      .catch(next);
+  });
 
 postsRouter
   .route("/:post_id")
