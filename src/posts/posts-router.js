@@ -2,6 +2,7 @@ const express = require("express");
 const PostService = require("./posts-service");
 const { requireAuth } = require("../middleware/jwt-auth");
 const postsRouter = express.Router();
+const bodyParser = express.json;
 
 postsRouter
   .route("/")

@@ -34,6 +34,17 @@ const PostsService = {
       .where("pst.id", id)
       .first();
   },
+  insertPost(db, newPost) {
+    return db
+      .insert(newPost)
+      .into("posts")
+      .returning("*")
+      .then(([post]) => post)
+      .then(post => PostsService.getById(db, post.id));
+  },
+  // getUserPost(db, userId) {
+  //   return PostsService.getAllPosts(db).where("user_id", userId);
+  // },
 
   getCommentsForPost(db, post_id) {
     return db
@@ -61,6 +72,15 @@ const PostsService = {
       .where("comm.post_id", post_id)
       .leftJoin("users AS usr", "comm.user_id", "usr.id")
       .groupBy("comm.id", "usr.id");
+  },
+  insertPost(knex, newPost) {
+    return knex
+      .insert(newPost)
+      .into("posts")
+      .returning("*")
+      .then(rows => {
+        return rows[0];
+      });
   },
 
   serializePost(post) {
