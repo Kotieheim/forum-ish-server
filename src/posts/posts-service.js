@@ -85,6 +85,7 @@ const PostsService = {
 
   serializePost(post) {
     const { author } = post;
+    console.log(author);
     return {
       id: post.id,
       style: post.style,

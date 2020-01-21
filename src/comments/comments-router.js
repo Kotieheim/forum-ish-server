@@ -22,7 +22,6 @@ commentsRouter
 
     CommentsService.insertComment(req.app.get("db"), newComment)
       .then(comment => {
-        console.log(comment);
         res
           .status(201)
           .location(path.posix.join(req.originalUrl, `/${comment.id}`))
