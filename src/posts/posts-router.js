@@ -3,7 +3,7 @@ const path = require("path");
 const PostService = require("./posts-service");
 const { requireAuth } = require("../middleware/jwt-auth");
 const postsRouter = express.Router();
-const bodyParser = express.json;
+const bodyParser = express.json();
 
 postsRouter
   .route("/")
@@ -14,32 +14,45 @@ postsRouter
       })
       .catch(next);
   })
-  .post(
-    // requireAuth,
-    bodyParser,
-    (req, res, next) => {
-      const { style, title, content } = req.body;
-      const newPost = { style, title, content, author };
+  .post(requireAuth, bodyParser, (req, res, next) => {
+    const { title, style, content } = req.body;
 
-      for (const [key, value] of Object.entries(newPost))
-        if (value == null)
-          return res.status(400).json({
-            error: `Missing '${key}' in request body`
-          });
+    const newPost = {
+      title: title,
+      style: style,
+      content: content
+    };
+    for (const [key, value] of Object.entries(newPost))
+      if (value == null)
+        return res.status(400).json({
+          error: `Missing '${key}' in request body`
+        });
+    newPost.author_id = req.user.id;
+    PostService.insertPost(req.app.get("db"), newPost).then(post => {
+      console.log(post);
+      res.status(201);
+      res.json();
+    });
+  });
 
-      newPost.author.id = req.user.id;
-      console.log(newPost);
-      PostService.insertPost(req.app.get("db", newPost))
-        .then(post => {
-          console.log(post);
-          res
-            .status(201)
-            .location(path.posix.join(req.originalUrl, `/post/${post.id}`))
-            .json(PostService.serializePost(post));
-        })
-        .catch(next);
-    }
-  );
+// .post(requireAuth, bodyParser, (req, res, next) => {
+//   const { style, title, content } = req.body;
+//   const newPost = {
+//     style: style,
+//     title: title,
+//     content: content
+//   };
+
+//   PostService.insertPost(req.app.get("db", newPost))
+//     .then(post => {
+//       console.log(post);
+//       res
+//         .status(201)
+//         .location(path.posix.join(req.originalUrl, `/post/${post.id}`))
+//         .json(PostService.serializePost(post));
+//     })
+//     .catch(next);
+// });
 
 postsRouter
   .route("/:post_id")
