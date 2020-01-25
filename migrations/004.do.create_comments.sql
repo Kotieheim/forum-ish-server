@@ -5,5 +5,5 @@ CREATE TABLE comments (
     post_id INTEGER
         REFERENCES posts(id) ON DELETE CASCADE NOT NULL,
     user_id INTEGER
-        REFERENCES posts(id) ON DELETE CASCADE NOT NULL
+        REFERENCES users(id) ON DELETE CASCADE NOT NULL
 );
