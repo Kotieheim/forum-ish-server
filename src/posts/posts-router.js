@@ -28,11 +28,13 @@ postsRouter
           error: `Missing '${key}' in request body`
         });
     newPost.author_id = req.user.id;
-    PostService.insertPost(req.app.get("db"), newPost).then(post => {
-      console.log(post);
-      res.status(201);
-      res.json();
-    });
+    PostService.insertPost(req.app.get("db"), newPost)
+      .then(post => {
+        console.log(post);
+        res.status(201).location(req.originalUrl, `/posts/${post.id}`);
+        res.json(PostService.serializePost(newPost));
+      })
+      .catch(next);
   });
 
 // .post(requireAuth, bodyParser, (req, res, next) => {
