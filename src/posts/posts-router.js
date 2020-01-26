@@ -29,30 +29,10 @@ postsRouter
         });
     newPost.author_id = req.user.id;
     PostService.insertPost(req.app.get("db"), newPost).then(post => {
-      console.log(post);
       res.status(201);
       res.json();
     });
   });
-
-// .post(requireAuth, bodyParser, (req, res, next) => {
-//   const { style, title, content } = req.body;
-//   const newPost = {
-//     style: style,
-//     title: title,
-//     content: content
-//   };
-
-//   PostService.insertPost(req.app.get("db", newPost))
-//     .then(post => {
-//       console.log(post);
-//       res
-//         .status(201)
-//         .location(path.posix.join(req.originalUrl, `/post/${post.id}`))
-//         .json(PostService.serializePost(post));
-//     })
-//     .catch(next);
-// });
 
 postsRouter
   .route("/:post_id")
