@@ -1,22 +1,28 @@
-## Set up
+# Forum-ish API
 
-Complete the following steps to start a new project (NEW-PROJECT-NAME):
+API for app [Forum-ish](https://forum-ish.kotieheim.now.sh/)
 
-1. Clone this repository to your local machine `git clone BOILERPLATE-URL NEW-PROJECTS-NAME`
-2. `cd` into the cloned repository
-3. Make a fresh start of the git history for this project with `rm -rf .git && git init`
-4. Install the node dependencies `npm install`
-5. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
-6. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "project-name-here",`
+## Open Endpoints
 
-## Scripts
+Open endpoints require no Authentication.
 
-Start the application `npm start`
+- Register: `POST /api/register/`
+- Login : `POST /api/login/`
+- Landing Page: `GET /api/posts/`
+- Post Page : `GET /api/posts/postId/`
 
-start nodemon for the application `npm run dev`
+## Endpoints that require Authentication
 
-run the tests `npm test`
+- Commenting: `POST /api/comments`
+- Add Post: `POST /api/posts/postId/`
 
-## Deploying
+### Current User related
 
-When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's master branch.
+Forms that will only be available when logged in.
+
+- Comment Form: `POST /api/comments`
+- Add Post Form: `POST /api/posts/postId/`
+
+### Technologies Used
+
+Node.js, Express.js, Heroku, SQL and PostgreSQL
