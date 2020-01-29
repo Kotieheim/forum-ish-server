@@ -1,9 +1,10 @@
 const express = require("express");
 const path = require("path");
 const UsersService = require("./users-service");
-
 const usersRouter = express.Router();
 const jsonBodyParser = express.json();
+
+// Router for users to create an account and insert it into the database, allowing them to log in and use features requiring authentication.
 
 usersRouter.post("/", jsonBodyParser, (req, res, next) => {
   const { password, user_name, full_name } = req.body;

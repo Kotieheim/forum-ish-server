@@ -5,6 +5,8 @@ const { requireAuth } = require("../middleware/jwt-auth");
 const postsRouter = express.Router();
 const bodyParser = express.json();
 
+// Router for rendering and handling all posts, individual posts with their ID's as well as comments on posts.
+
 postsRouter
   .route("/")
   .get((req, res, next) => {

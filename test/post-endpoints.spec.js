@@ -42,29 +42,5 @@ describe("Posts Endpoints", () => {
           .expect(200, expectedPosts);
       });
     });
-    // describe("POST /posts", () => {
-    //   context("insert post", () =>
-    //     helpers.seedPostTables(db, testUsers, testPosts)
-    //   );
-    //   it("Makes a post, responds with 201 and the new comment", function() {
-    //     this.retries(3);
-    //     const testPost = testPosts[0];
-    //     const testUser = testUsers[0];
-    //     const newPost = {
-    //       style: "Test Style",
-    //       title: "Test title",
-    //       content: "Test Content"
-    //     };
-    //     return supertest(app)
-    //       .post("/api/posts")
-    //       .set("Authorization", helpers.makeAuthHeader(testUsers[0]))
-    //       .send(newPost)
-    //       .expect(201)
-    //       .expect(res => {
-    //         console.log(res);
-    //         expect(res.body).to.have.property("id");
-    //       });
-    //   });
-    // });
   });
 });

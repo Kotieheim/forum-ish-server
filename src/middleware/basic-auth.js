@@ -1,5 +1,7 @@
 const AuthService = require("../auth/auth-service");
 
+// Basic authentication middleware
+
 function requireAuth(req, res, next) {
   const authToken = req.get("Authorization") || "";
 
@@ -24,15 +26,15 @@ function requireAuth(req, res, next) {
         return res.status(401).json({ error: "Unauthorized request" });
       }
 
-      // return AuthService.comparePasswords(tokenPassword, user.password).then(
-      //   passwordsMatch => {
-      //     if (!passwordsMatch) {
-      //       return res.status(401).json({ error: "Unauthorized request" });
-      //     }
-      //     req.user = user;
-      //     next();
-      //   }
-      // );
+      return AuthService.comparePasswords(tokenPassword, user.password).then(
+        passwordsMatch => {
+          if (!passwordsMatch) {
+            return res.status(401).json({ error: "Unauthorized request" });
+          }
+          req.user = user;
+          next();
+        }
+      );
     })
     .catch(next);
 }
