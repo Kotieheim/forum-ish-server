@@ -25,4 +25,4 @@ Forms that will only be available when logged in.
 
 ### Technologies Used
 
-Node.js, Express.js, Heroku, SQL and PostgreSQL
+Node.js, Express.js, Heroku, JWT auth, SQL and PostgreSQL

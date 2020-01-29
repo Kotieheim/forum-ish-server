@@ -38,11 +38,33 @@ postsRouter
   .route("/:post_id")
   .all(checkPostExists)
   .get((req, res) => {
+    console.log(res.post);
     res.json(PostService.serializePost(res.post));
+  })
+  .delete(requireAuth, (req, res, next) => {
+    console.log(
+      "REQ USER ID",
+      req.user.id,
+      "RES AUTHOR ID",
+      res.post.author.id
+    );
+    if (req.user.id !== res.post.author.id)
+      return res.status(400).json({
+        error: `Cannot delete other users posts`
+      });
+
+    PostService.deletePost(req.app.get("db"), req.params.post_id)
+      .then(numRowsAffected => {
+        res
+          .status(204)
+          .send(`Post with id:${req.params.post_id} delete`)
+          .end();
+      })
+      .catch(next);
   });
 
 postsRouter
-  .route("/:post_id/comments/")
+  .route("/:post_id/comments")
   .all(checkPostExists)
   .get((req, res, next) => {
     PostService.getCommentsForPost(req.app.get("db"), req.params.post_id)

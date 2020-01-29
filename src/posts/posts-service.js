@@ -42,9 +42,6 @@ const PostsService = {
       .then(([post]) => post)
       .then(post => PostsService.getById(db, post.id));
   },
-  // getUserPost(db, userId) {
-  //   return PostsService.getAllPosts(db).where("user_id", userId);
-  // },
 
   getCommentsForPost(db, post_id) {
     return db
@@ -82,10 +79,15 @@ const PostsService = {
         return rows[0];
       });
   },
+  deletePost(db, post_id) {
+    return db("posts")
+      .where({ id: post_id })
+      .delete();
+  },
 
   serializePost(post) {
     const { author } = post;
-    console.log(author);
+
     return {
       id: post.id,
       style: post.style,
